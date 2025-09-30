@@ -15,6 +15,7 @@ from pydantic import BaseModel, Field
 from starlette.middleware.cors import CORSMiddleware
 
 from ai_agents.agents import AgentConfig, ChatAgent, SearchAgent
+from routes import auth_routes, inventory_routes, order_routes, report_routes
 
 
 logging.basicConfig(
@@ -237,6 +238,12 @@ async def get_agent_capabilities(request: Request):
 
 
 app.include_router(api_router)
+
+# Include jewellery store routes
+app.include_router(auth_routes.router, prefix="/api")
+app.include_router(inventory_routes.router, prefix="/api")
+app.include_router(order_routes.router, prefix="/api")
+app.include_router(report_routes.router, prefix="/api")
 
 app.add_middleware(
     CORSMiddleware,
